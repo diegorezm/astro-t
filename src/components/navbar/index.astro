@@ -1,0 +1,43 @@
+---
+import { ThemeToggle } from "./theme-toggle";
+import { Button } from "../ui/button";
+
+const currentPath = Astro.url.pathname;
+const isActive = (path: string) => currentPath === path;
+const links = [
+  {
+    name: "Home",
+    path: "/",
+  },
+  {
+    name: "Todo App",
+    path: "/todo",
+  },
+  {
+    name: "Employee App",
+    path: "/employee",
+  },
+];
+---
+
+<div class="sticky top-0 w-full bg-background">
+  <nav
+    class="flex items-center justify-between p-2 border-b border-primary-foreground"
+  >
+    <div></div>
+    <ul class="flex gap-2">
+      {
+        links.map((link) => (
+          <li>
+            <Button variant={isActive(link.path) ? "default" : "outline"}>
+              <a href={link.path} class="w-full h-full text-center">
+                {link.name}
+              </a>
+            </Button>
+          </li>
+        ))
+      }
+    </ul>
+    <ThemeToggle client:load />
+  </nav>
+</div>
