@@ -30,7 +30,7 @@ export const UpdateEmployeeSheet = () => {
             toast.error("Employee not found")
             return
           }
-          const {data, error} = await actions.updateEmployee({
+          const {error} = await actions.updateEmployee({
             id: employee.id,
             ...e
           })

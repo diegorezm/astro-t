@@ -22,7 +22,7 @@ export const CreateEmployeeSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <EmployeeForm onSubmit={async (e) => {
-          const {data, error} = await actions.createEmployee(e)
+          const {error} = await actions.createEmployee(e)
           if (error) {
             toast.error(error.message ?? "Failed to create employee")
             return
