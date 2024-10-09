@@ -43,9 +43,9 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({employee}) => {
         <img src={employee.image} alt={employee.name} className="w-24 h-24 rounded-full mb-4" />
         <p className="text-sm font-medium">{employee.company}</p>
         <p className="text-sm text-secondary-foreground">{employee.job}</p>
-        <div className="mt-4 flex space-x-2">
-          <Button onClick={() => onEdit(employee)}>Edit</Button>
-          <Button variant="destructive" onClick={() => onDelete(employee.id)}>Delete</Button>
+        <div className="mt-4 flex space-x-2 w-full">
+          <Button onClick={() => onEdit(employee)} className="w-full lg:w-1/2">Edit</Button>
+          <Button variant="destructive" onClick={() => onDelete(employee.id)} className="w-full lg:w-1/2">Delete</Button>
         </div>
       </CardContent>
     </Card>
