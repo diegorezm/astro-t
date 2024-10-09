@@ -10,7 +10,9 @@ export default function TodoList() {
         <CardTitle className="text-2xl">Todo List</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul>
+        {todos.length === 0 && <p className="mb-2 text-md">No todos found</p>}
+        <p className="mb-2 text-sm">Total: {todos.length}</p>
+        <ul className="space-y-4">
           {todos.map((todo, i) => (
             <TodoItem key={i} todo={todo} />
           ))}
