@@ -1,6 +1,19 @@
 ---
 import Layout from "@/components/layout.astro";
 import ShowcaseCard from "@/components/showcase-card.astro";
+
+const projects = [
+  {
+    title: "Todo App",
+    description: "A simple Todo App",
+    href: "/todo",
+  },
+  {
+    title: "Employee Management",
+    description: "Consume data from a Mock API to view employee details.",
+    href: "/employee",
+  },
+] as const;
 ---
 
 <Layout title="Home">
@@ -12,15 +25,14 @@ import ShowcaseCard from "@/components/showcase-card.astro";
     </p>
   </header>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <ShowcaseCard
-      title="Todo App"
-      description="A simple Todo App"
-      href="/todo"
-    />
-    <ShowcaseCard
-      title="Employee Management"
-      description="Consume data from a Mock API to view employee details."
-      href="/employee"
-    />
+    {
+      projects.map((project) => (
+        <ShowcaseCard
+          title={project.title}
+          description={project.description}
+          href={project.href}
+        />
+      ))
+    }
   </div>
 </Layout>

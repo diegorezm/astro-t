@@ -9,8 +9,12 @@ import {useOpenUpdateEmployeeSheet} from "./_use-open-update-employee-sheet"
 import EmployeeForm from "./_form"
 import {actions} from "astro:actions"
 import {toast} from "sonner"
+import {useShouldUpdate} from "./_should_update_event"
+import {useState} from "react"
 
 export const UpdateEmployeeSheet = () => {
+  const {onShouldUpdate} = useShouldUpdate()
+  const [isLoading, setIsLoading] = useState(false)
   const {open, onClose, employee} = useOpenUpdateEmployeeSheet()
   if (open && !employee) {
     toast.error("Employee not found")
@@ -25,22 +29,28 @@ export const UpdateEmployeeSheet = () => {
             Fill in the information below to update employee record.
           </SheetDescription>
         </SheetHeader>
-        <EmployeeForm defaultValues={employee!} onSubmit={async (e) => {
-          if (!employee) {
-            toast.error("Employee not found")
-            return
+        <EmployeeForm isLoading={isLoading} defaultValues={employee!} onSubmit={async (e) => {
+          try {
+            setIsLoading(true)
+            const {error} = await actions.updateEmployee({
+              id: employee!.id,
+              ...e
+            })
+            if (error) {
+              throw error
+            }
+            toast.success("Employee updated successfully")
+            onShouldUpdate()
+            onClose()
+          } catch (e) {
+            if (e instanceof Error) {
+              toast.error(e.message)
+            } else {
+              toast.error("Failed to update employee")
+            }
+          } finally {
+            setIsLoading(false)
           }
-          const {error} = await actions.updateEmployee({
-            id: employee.id,
-            ...e
-          })
-          if (error) {
-            toast.error(error.message ?? "Failed to update employee")
-            return
-          }
-          toast.success("Employee updated successfully")
-          setTimeout(() => location.reload(), 1000)
-          onClose()
         }} />
       </SheetContent>
     </Sheet>

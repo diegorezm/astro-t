@@ -9,9 +9,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import {toast} from "sonner"
+import {useShouldUpdate} from "./_should_update_event"
+import {useState} from "react"
 
 export const CreateEmployeeSheet = () => {
   const {open, onClose} = useOpenCreateEmployeeSheet()
+  const [isLoading, setIsLoading] = useState(false)
+  const {onShouldUpdate} = useShouldUpdate()
   return (
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent>
@@ -21,15 +25,25 @@ export const CreateEmployeeSheet = () => {
             Fill in the information below to create a new employee.
           </SheetDescription>
         </SheetHeader>
-        <EmployeeForm onSubmit={async (e) => {
-          const {error} = await actions.createEmployee(e)
-          if (error) {
-            toast.error(error.message ?? "Failed to create employee")
-            return
+        <EmployeeForm isLoading={isLoading} onSubmit={async (e) => {
+          try {
+            setIsLoading(true)
+            const {error} = await actions.createEmployee(e)
+            if (error) {
+              throw error
+            }
+            toast.success("Employee created successfully")
+            onShouldUpdate()
+            onClose()
+          } catch (e) {
+            if (e instanceof Error) {
+              toast.error(e.message)
+            } else {
+              toast.error("Failed to create employee")
+            }
+          } finally {
+            setIsLoading(false)
           }
-          toast.success("Employee created successfully")
-          setTimeout(() => location.reload(), 1000)
-          onClose()
         }} />
       </SheetContent>
     </Sheet>

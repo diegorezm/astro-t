@@ -4,6 +4,7 @@ import type {Employee} from "@/models/employee";
 import {useOpenUpdateEmployeeSheet} from "./_use-open-update-employee-sheet";
 import {actions} from "astro:actions";
 import {toast} from "sonner";
+import {useShouldUpdate} from "./_should_update_event";
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -20,6 +21,7 @@ type EmployeeCardProps = {
 
 const EmployeeCard: React.FC<EmployeeCardProps> = ({employee}) => {
   const {onOpen} = useOpenUpdateEmployeeSheet()
+  const {onShouldUpdate} = useShouldUpdate()
   const onEdit = (employee: Employee) => {
     onOpen(employee)
   }
@@ -30,7 +32,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({employee}) => {
       toast.error(error.message ?? "Failed to delete employee")
     }
     toast.success("Employee deleted successfully!")
-    setTimeout(() => location.reload(), 1000)
+    onShouldUpdate();
   }
 
   return (

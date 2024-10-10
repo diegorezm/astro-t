@@ -7,9 +7,10 @@ import type {Employee, EmployeeDTO} from "@/models/employee";
 type Props = {
   onSubmit: (e: EmployeeDTO) => void;
   defaultValues?: Employee;
+  isLoading?: boolean;
 };
 
-const EmployeeForm = ({onSubmit, defaultValues}: Props) => {
+const EmployeeForm = ({onSubmit, defaultValues, isLoading = false}: Props) => {
   const [name, setName] = useState(defaultValues?.name || "");
   const [job, setJob] = useState(defaultValues?.job || "");
   const [company, setCompany] = useState(defaultValues?.company || "");
@@ -59,7 +60,9 @@ const EmployeeForm = ({onSubmit, defaultValues}: Props) => {
           required
         />
       </div>
-      <Button type="submit">Add Employee</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? "Saving..." : "Save"}
+      </Button>
     </form>
   );
 };
