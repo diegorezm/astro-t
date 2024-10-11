@@ -31,9 +31,10 @@ const EmployeeForm = ({onSubmit, defaultValues, isLoading = false}: Props) => {
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div>
-        <Label>Name</Label>
+        <Label htmlFor="name">Name</Label>
         <Input
           type="text"
+          id="name"
           placeholder="Employee Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -41,8 +42,9 @@ const EmployeeForm = ({onSubmit, defaultValues, isLoading = false}: Props) => {
         />
       </div>
       <div>
-        <Label>Job Title</Label>
+        <Label htmlFor="job-title">Job Title</Label>
         <Input
+          id="job-title"
           type="text"
           placeholder="Job Title"
           value={job}
@@ -51,8 +53,9 @@ const EmployeeForm = ({onSubmit, defaultValues, isLoading = false}: Props) => {
         />
       </div>
       <div>
-        <Label>Company</Label>
+        <Label htmlFor="company">Company</Label>
         <Input
+          id="company"
           type="text"
           placeholder="Company Name"
           value={company}

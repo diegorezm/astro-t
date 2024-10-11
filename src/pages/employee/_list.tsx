@@ -12,7 +12,7 @@ export const EmployeeList = () => {
   const [employee, setEmployee] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(false)
 
-  const setup = async () => {
+  const getData = async () => {
     try {
       setIsLoading(true)
       const {data, error} = await actions.getEmployees()
@@ -33,12 +33,12 @@ export const EmployeeList = () => {
   }
 
   useEffect(() => {
-    setup()
+    getData()
   }, [])
 
   useEffect(() => {
     if (shouldUpdate) {
-      setup()
+      getData()
       onShouldUpdateReset()
     }
   }, [shouldUpdate])
