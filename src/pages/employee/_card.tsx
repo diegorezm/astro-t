@@ -6,6 +6,7 @@ import {actions} from "astro:actions";
 import {toast} from "sonner";
 import {useShouldUpdate} from "./_should_update_event";
 import {useState} from "react";
+import {Pencil, Trash2} from "lucide-react";
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -58,10 +59,12 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({employee}) => {
         <img src={employee.image} alt={employee.name} className="w-24 h-24 rounded-full mb-4" />
         <p className="text-sm font-medium">{employee.company}</p>
         <p className="text-sm text-secondary-foreground">{employee.job}</p>
-        <div className="mt-4 flex space-x-2 w-full">
-          <Button onClick={() => onEdit(employee)} className="w-full lg:w-1/2">Edit</Button>
-          <Button variant="destructive" disabled={isLoading} onClick={() => onDelete(employee.id)} className="w-full lg:w-1/2">
-            {isLoading ? "Deleting..." : "Delete"}
+        <div className="mt-4 flex flex-col lg:flex-row space-x-2 w-full justify-center items-center gap-2">
+          <Button size="icon" onClick={() => onEdit(employee)} className="w-1/2 lg:w-1/4">
+            <Pencil className="size-5" />
+          </Button>
+          <Button variant="destructive" disabled={isLoading} size={"icon"} onClick={() => onDelete(employee.id)} className="w-1/2 lg:w-1/4">
+            {isLoading ? "Deleting..." : <Trash2 className="size-5" />}
           </Button>
         </div>
       </CardContent>
