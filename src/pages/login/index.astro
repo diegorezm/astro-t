@@ -1,0 +1,72 @@
+---
+import Guest from "@/components/guest.astro";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+
+let errorMessage = "";
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const email = data.get("email");
+    const password = data.get("password");
+    if (email !== "email@email.com") {
+      throw new Error("Invalid email");
+    }
+    if (password !== "password") {
+      throw new Error("Invalid password");
+    }
+    Astro.cookies.set("auth", "true", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    return Astro.redirect("/");
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+  }
+}
+---
+
+<Guest title="Login">
+  <Card>
+    <CardHeader>
+      <CardTitle>Login</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <form action="" class="space-y-6" method="POST">
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            placeholder="exemple@email.com"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            placeholder="******"
+            id="password"
+            name="password"
+            type="password"
+            required
+            minLength={8}
+          />
+        </div>
+        <Button type="submit">Login</Button>
+      </form>
+
+      {
+        errorMessage && (
+          <div class="text-red-500 text-md mt-2">{errorMessage}</div>
+        )
+      }
+    </CardContent>
+  </Card>
+</Guest>
